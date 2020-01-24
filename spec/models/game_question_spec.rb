@@ -48,9 +48,8 @@ RSpec.describe GameQuestion, type: :model do
       ah = game_question.help_hash[:audience_help]
       expect(ah.keys).to contain_exactly('a', 'b', 'c', 'd')
     end
-  end
-  context '#help_hash' do
-    it 'correct .help_hash' do
+
+    it 'correct #help_hash' do
       # на фабрике у нас изначально хэш пустой
       expect(game_question.help_hash).to eq({})
 
@@ -67,10 +66,8 @@ RSpec.describe GameQuestion, type: :model do
       # проверяем новые значение хэша
       expect(gq.help_hash).to eq({key1: 'one', key2: 'two'})
     end
-  end
 
-  context '#fifty_fifty' do
-    it 'correct fifty_fifty' do
+    it 'correct #fifty_fifty' do
       # сначала убедимся, в подсказках пока нет нужного ключа
       expect(game_question.help_hash).not_to include(:fifty_fifty)
       # вызовем подсказку
@@ -83,6 +80,14 @@ RSpec.describe GameQuestion, type: :model do
       expect(ff).to include('b') # должен остаться правильный вариант
       expect(ff.size).to eq 2 # всего должно остаться 2 варианта
     end
-  end
 
+    it 'correct #friend_call' do
+      expect(game_question.help_hash).not_to include(:friend_call)
+
+      game_question.add_friend_call
+
+      expect(game_question.help_hash).to include(:friend_call)
+      expect(%w[A B C D]).to include(game_question.help_hash[:friend_call].last)
+    end
+  end
 end
