@@ -28,6 +28,41 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
       expect(flash[:alert]).to be # во flash должен быть прописана ошибка
     end
+
+    it 'kicks from #create' do
+      generate_questions(15)
+
+      post :create
+
+      game = assigns(:game)
+
+      expect(game).to be_nil
+      expect(response.status).not_to eq(200)
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to be
+    end
+
+    it 'kicks from #answer' do
+      put :answer, id: game_w_questions.id, letter: 'd'
+
+      game = assigns(:game)
+
+      expect(game).to be_nil
+      expect(response.status).not_to eq(200)
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to be
+    end
+
+    it 'kicks from #take_money' do
+      put :take_money, id: game_w_questions.id
+
+      game = assigns(:game)
+
+      expect(game).to be_nil
+      expect(response.status).not_to eq(200)
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to be
+    end
   end
 
   # группа тестов на экшены контроллера, доступных залогиненным юзерам
