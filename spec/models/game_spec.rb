@@ -33,11 +33,11 @@ RSpec.describe Game, type: :model do
         game = Game.create_game_for_user!(user)
         # Проверка: Game.count изменился на 1 (создали в базе 1 игру)
       }.to change(Game, :count).by(1).and(
-        # GameQuestion.count +15
-        change(GameQuestion, :count).by(15).and(
-          # Game.count не должен измениться
-          change(Question, :count).by(0)
-        )
+          # GameQuestion.count +15
+          change(GameQuestion, :count).by(15).and(
+              # Game.count не должен измениться
+              change(Question, :count).by(0)
+          )
       )
 
       # Проверяем статус и поля
@@ -69,6 +69,38 @@ RSpec.describe Game, type: :model do
       # Игра продолжается
       expect(game_w_questions.status).to eq(:in_progress)
       expect(game_w_questions.finished?).to be_falsey
+    end
+  end
+
+  context 'answer current question' do
+
+    it 'timeout -> returns false' do
+      game_w_questions.created_at = 1.hour.ago
+
+      expect(game_w_questions.answer_current_question!('d')).to be false
+      expect(game_w_questions.finished?).to be true
+      expect(game_w_questions.status).to eq(:timeout)
+    end
+
+    it 'wrong answer -> return false' do
+      expect(game_w_questions.answer_current_question!('a')).to be false
+      expect(game_w_questions.finished?).to be true
+      expect(game_w_questions.status).to eq(:fail)
+    end
+
+    it 'answer  right -> game continues' do
+      expect(game_w_questions.answer_current_question!('d')).to be true
+      expect(game_w_questions.current_level).to eq(1)
+      expect(game_w_questions.status).to eq(:in_progress)
+    end
+
+    it 'last answer right to game win' do
+      game_w_questions.current_level = Question::QUESTION_LEVELS.max
+
+      expect(game_w_questions.answer_current_question!('d')).to be true
+      expect(game_w_questions.finished?).to be true
+      expect(game_w_questions.status).to eq(:won)
+      expect(game_w_questions.prize).to eq(Game::PRIZES.last)
     end
   end
 end

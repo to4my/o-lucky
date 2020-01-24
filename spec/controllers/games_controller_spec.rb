@@ -103,7 +103,7 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to(user_path(user))
       expect(flash[:alert]).to be
     end
-    
+
     # юзер видит свою игру
     it '#show game' do
       get :show, id: game_w_questions.id
