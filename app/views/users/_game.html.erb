@@ -1,5 +1,5 @@
 <%# Шаблон, который выводит информацию о конкретной игре для профиля пользователя %>
-<tr class="text-center">
+<tr class="text-center" id="game-<%= "#{game.id}" %>">
   <td><%= game.id %></td>
   <td><%= game_label(game) %></td>
   <td><%= l game.created_at, format: :short %></td>
