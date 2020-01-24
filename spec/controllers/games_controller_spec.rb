@@ -86,6 +86,24 @@ RSpec.describe GamesController, type: :controller do
       expect(flash[:notice]).to be
     end
 
+    it 'answers wrong' do
+      game_w_questions.update_attribute(:current_level, 5)
+
+      put :answer, id: game_w_questions.id, letter: 'a'
+
+      game = assigns(:game)
+
+      expect(game.finished?).to be_truthy
+      expect(game.status).to eq(:fail)
+      expect(game.prize).to eq(1000)
+
+      user.reload
+      expect(user.balance).to eq(1000)
+
+      expect(response).to redirect_to(user_path(user))
+      expect(flash[:alert]).to be
+    end
+    
     # юзер видит свою игру
     it '#show game' do
       get :show, id: game_w_questions.id
