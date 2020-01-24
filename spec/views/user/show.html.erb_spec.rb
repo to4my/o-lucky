@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users/show', type: :view do
-  let(:user) { FactoryGirl.build_stubbed(:user, name: 'Mike') }
+  let(:user) { FactoryBot.build_stubbed(:user, name: 'Mike') }
 
   it 'shows username' do
     assign(:user, user)
@@ -21,7 +21,7 @@ RSpec.describe 'users/show', type: :view do
   end
 
   it 'does not show change password button if not current_user' do
-    another_user = FactoryGirl.build_stubbed(:user, name: 'Mike')
+    another_user = FactoryBot.build_stubbed(:user, name: 'Mike')
 
     assign(:user, another_user)
     allow(view).to receive(:current_user).and_return(user)
@@ -33,7 +33,7 @@ RSpec.describe 'users/show', type: :view do
 
   it 'shows game partial' do
     assign(:user, user)
-    assign(:games, [FactoryGirl.build_stubbed(:game)])
+    assign(:games, [FactoryBot.build_stubbed(:game)])
 
     stub_template 'users/_game.html.erb' => 'User game goes here'
 

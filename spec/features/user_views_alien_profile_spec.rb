@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.feature 'User views alien profile', type: :feature do
-  let(:user) { FactoryGirl.create(:user, name: 'Админ') }
-  let(:another_user) { FactoryGirl.create(:user, name: 'Юзверь') }
+  let(:user) { FactoryBot.create(:user, name: 'Админ') }
+  let(:another_user) { FactoryBot.create(:user, name: 'Юзверь') }
 
   let!(:games) do
     [
-      FactoryGirl.create(
+      FactoryBot.create(
         :game,
         user: another_user,
         prize: 16_000,
@@ -15,7 +15,7 @@ RSpec.feature 'User views alien profile', type: :feature do
         finished_at: Time.parse('2020-01-24 14:15'),
         is_failed: false
       ),
-      FactoryGirl.create(
+      FactoryBot.create(
         :game,
         user: another_user,
         prize: 1_000,
