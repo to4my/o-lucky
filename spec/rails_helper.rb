@@ -25,7 +25,8 @@ end
 
 # специальные "матчеры" - методы, удобные для тестирования валидаций
 Shoulda::Matchers.configure do |config|
-  config.integrate do |with| with.test_framework :rspec
+  config.integrate do |with|
+    with.test_framework :rspec
     with.library :rails
   end
 end
@@ -51,8 +52,6 @@ RSpec.configure do |config|
   # хелперы для авторизации с помощью девайс
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
-
-  #config.include Devise::TestHelpers, type: :controller
 
   # Подключаем в фичах специальные хелперы для авторизации
   config.include Warden::Test::Helpers, type: :feature
