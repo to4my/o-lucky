@@ -50,7 +50,7 @@ RSpec.feature 'User views alien profile', type: :feature do
 
     expect(page).to have_selector "#game-#{games[1].id}"
 
-    within "#game-#{games[1].id}" do
+    within "#game-#{games.second.id}" do
       expect(page).to have_content 'проигрыш'
       expect(page).to have_content '24 янв., 13:00'
       expect(page).to have_content '6'

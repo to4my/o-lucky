@@ -11,10 +11,10 @@ FactoryBot.define do
     association :user
 
     # Игра только начата, создаем объект с нужными полями
-    finished_at nil
-    current_level 0
-    is_failed false
-    prize 0
+    finished_at { nil }
+    current_level { 0 }
+    is_failed { false }
+    prize { 0 }
 
     # Фабрика :game создает объект Game без дочерних игровых вопросов, в такую
     # игру играть нельзя, поэтому мы расширяем эту фабрику, добавляя ещё одну:
