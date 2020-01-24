@@ -56,6 +56,5 @@ RSpec.feature 'User views alien profile', type: :feature do
       expect(page).to have_content '6'
       expect(page).to have_content '1 000 ₽'
     end
-    save_and_open_page
   end
 end
