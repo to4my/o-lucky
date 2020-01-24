@@ -17,11 +17,11 @@ RSpec.describe GameQuestion, type: :model do
     # Тест на правильную генерацию хэша с вариантами
     it 'correct .variants' do
       expect(game_question.variants).to eq(
-        'a' => game_question.question.answer2,
-        'b' => game_question.question.answer1,
-        'c' => game_question.question.answer4,
-        'd' => game_question.question.answer3
-      )
+                                            'a' => game_question.question.answer2,
+                                            'b' => game_question.question.answer1,
+                                            'c' => game_question.question.answer4,
+                                            'd' => game_question.question.answer3
+                                        )
     end
 
     it 'correct .answer_correct?' do
@@ -47,6 +47,25 @@ RSpec.describe GameQuestion, type: :model do
 
       ah = game_question.help_hash[:audience_help]
       expect(ah.keys).to contain_exactly('a', 'b', 'c', 'd')
+    end
+  end
+  context '#help_hash' do
+    it 'correct .help_hash' do
+      # на фабрике у нас изначально хэш пустой
+      expect(game_question.help_hash).to eq({})
+
+      # добавляем пару ключей
+      game_question.help_hash[:key1] = 'one'
+      game_question.help_hash[:key2] = 'two'
+
+      # сохраняем модель и ожидаем сохранения хорошего
+      expect(game_question.save).to be_truthy
+
+      # загрузим этот же вопрос из базы для чистоты эксперимента
+      gq = GameQuestion.find(game_question.id)
+
+      # проверяем новые значение хэша
+      expect(gq.help_hash).to eq({key1: 'one', key2: 'two'})
     end
   end
 end

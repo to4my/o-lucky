@@ -72,6 +72,7 @@ class GameQuestion < ActiveRecord::Base
       add_friend_call
     end
   end
+
   private
 
   def keys_to_use_in_help
