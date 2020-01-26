@@ -92,6 +92,7 @@ RSpec.describe Game, type: :model do
       expect(game_w_questions.answer_current_question!('d')).to be true
       expect(game_w_questions.current_level).to eq(1)
       expect(game_w_questions.status).to eq(:in_progress)
+      expect(game_w_questions.finished?).not_to be true
     end
 
     it 'last answer right to game win' do
